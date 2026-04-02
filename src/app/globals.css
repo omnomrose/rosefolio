@@ -1,0 +1,153 @@
+@import "tailwindcss";
+
+:root {
+  /* Figma token import: tokens/Mode 1.tokens.json */
+  --color-surface-primary-light: #f8f4f6;
+  --color-text-black-light: #2f2b29;
+  --color-text-gray-light: #746e6e;
+  --color-button-primary-light: #ff8aca;
+  --color-button-secondary-light: #7cc78a;
+  --colours-surface-surface-100: #f8f4f6;
+  --colours-surface-surface-150: #746e6e;
+  --colours-surface-surface-200: #2f2b29;
+  --colours-surface-surface-10: rgb(47 43 41 / 10%);
+  --colours-surface-surface-30: rgb(47 43 41 / 30%);
+  --colours-surface-surface-50: rgb(47 43 41 / 50%);
+  --colours-primary-primary-100: #ffcee9;
+  --colours-primary-primary-200: #ff8aca;
+  --colours-primary-primary-300: #f30086;
+  --colours-primary-primary-10: rgb(255 206 233 / 10%);
+  --colours-primary-primary-50: rgb(255 206 233 / 50%);
+
+  --space-0: 4px;
+  --space-1: 8px;
+  --space-2: 12px;
+  --space-3: 16px;
+  --space-4: 20px;
+  --space-5: 24px;
+  --space-6: 28px;
+  --space-7: 32px;
+  --space-8: 36px;
+  --space-9: 40px;
+  --space-10: 44px;
+  --space-11: 48px;
+  --space-12: 56px;
+
+  --radius-1: 4px;
+  --radius-2: 8px;
+  --radius-3: 12px;
+  --radius-4: 16px;
+  --radius-5: 20px;
+  --radius-6: 24px;
+  --radius-7: 500px;
+
+  --background: var(--colours-surface-surface-100);
+  --foreground: var(--colours-surface-surface-200);
+  --muted: var(--colours-surface-surface-150);
+  --accent: var(--colours-primary-primary-300);
+  --line: var(--colours-surface-surface-30);
+}
+
+html,
+body {
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+
+body {
+  color: var(--foreground);
+  background-color: var(--background);
+  background-image: url("/grid.svg");
+  background-position: top center;
+  background-repeat: repeat-y;
+  background-size: 1512px auto;
+  font-family: var(--font-sans), sans-serif;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.display-serif {
+  font-family: var(--font-sans), sans-serif;
+}
+
+.font-geist-mono {
+  font-family: var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+.text-display-semi {
+  font-size: 50px;
+  line-height: 1.41;
+  font-weight: 600;
+}
+
+.text-h2-regular {
+  font-size: 30px;
+  line-height: 1.41;
+  font-weight: 400;
+}
+
+.text-h3-medium {
+  font-size: 20px;
+  line-height: 1.41;
+  font-weight: 500;
+}
+
+.text-body-18 {
+  font-size: 18px;
+  line-height: 1.41;
+  font-weight: 400;
+}
+
+.text-body-16 {
+  font-size: 16px;
+  line-height: 1.41;
+  font-weight: 400;
+}
+
+.text-label-16 {
+  font-size: 16px;
+  line-height: 1.41;
+  font-weight: 400;
+  text-transform: uppercase;
+}
+
+.text-label-14 {
+  font-size: 14px;
+  line-height: 1.41;
+  font-weight: 400;
+  text-transform: uppercase;
+}
+
+.text-label-12 {
+  font-size: 12px;
+  line-height: 1.41;
+  font-weight: 400;
+  text-transform: uppercase;
+}
+
+.hero-title {
+  text-align: center;
+  font-family: var(--font-instrument-serif), serif;
+  font-size: 50px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1.41;
+  letter-spacing: -1px;
+}
+
+.nav-link {
+  color: #746e6e;
+  transition: color 150ms ease;
+}
+
+.nav-link:hover,
+.nav-link:focus-visible {
+  color: #f30086;
+}
+
+.nav-link-active {
+  color: #f30086;
+}
