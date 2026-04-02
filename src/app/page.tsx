@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Nav from "@/components/Nav";
 
 const featuredProjects = [
   {
@@ -13,13 +14,13 @@ const featuredProjects = [
     title: "Optimizing Meta Glasses for Retail",
     meta: "CONCEPTUAL, UX/UI",
     summary:
-      "A retail concept focused on ambient assistance and spatial interactions to improve in-store experiences.",
+      "A healthcare platform connecting Canadian patients with healthcare providers through AI-assisted consultations.",
     image:
       "https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&w=1300&q=80",
   },
   {
     title: "Still",
-    meta: "HEALTH TECH",
+    meta: "FIGMA, HEALTH TECH",
     summary:
       "An Apple Watch and iPhone companion app that detects subtle physiological changes in real-time.",
     image:
@@ -29,7 +30,7 @@ const featuredProjects = [
     title: "Mitchie Matcha",
     meta: "BRANDING, MENU DESIGN",
     summary:
-      "A visual identity system for a Vancouver-based cafe serving handcrafted drinks with premium matcha.",
+      "Designing merchandise for a Vancouver-based cafe offering handcrafted drinks made with premium Japanese matcha.",
     image:
       "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=1300&q=80",
   },
@@ -44,27 +45,28 @@ type CaseStudyCardProps = {
 
 function CaseStudyCard({ title, meta, summary, image }: CaseStudyCardProps) {
   return (
-    <article className="col-span-1 flex h-full flex-col items-start gap-[var(--space-7)] md:col-span-7">
-      <div className="w-full overflow-hidden rounded-[var(--radius-2)] border border-black/10 bg-white md:w-[593px]">
+    <article className="flex flex-col items-start gap-[var(--space-7)]">
+      <div className="w-full overflow-hidden rounded-[var(--radius-3)]">
         <Image
           src={image}
           alt={title}
           width={593}
           height={330}
-          className="h-[220px] w-full object-cover md:h-[330px] md:w-[593px]"
+          className="h-[220px] w-full object-cover md:h-[330px]"
         />
       </div>
-
-      <div className="flex grow flex-col">
-        <div className="mb-[var(--space-2)] flex items-start justify-between gap-[var(--space-2)]">
-          <h3 className="text-h3-medium text-[var(--color-text-black-light)]">
+      <div className="flex w-full flex-col gap-[var(--space-1)]">
+        <div className="flex w-full items-start justify-between gap-[var(--space-3)]">
+          <h3 className="text-h3-medium text-[var(--colours-surface-surface-200)]">
             {title}
           </h3>
-          <p className="text-label-12 font-geist-mono pt-[6px] tracking-[0.16em] text-[var(--muted)]">
+          <p className="text-label-12 font-geist-mono shrink-0 pt-[4px] tracking-[0.16em] text-[var(--colours-surface-surface-150)]">
             {meta}
           </p>
         </div>
-        <p className="text-body-16 max-w-[92%] text-[#746E6E]">{summary}</p>
+        <p className="text-body-16 text-[var(--colours-surface-surface-150)]">
+          {summary}
+        </p>
       </div>
     </article>
   );
@@ -72,76 +74,47 @@ function CaseStudyCard({ title, meta, summary, image }: CaseStudyCardProps) {
 
 export default function Home() {
   return (
-    <main className="w-full pb-[var(--space-12)] pt-[var(--space-5)]">
-      <div className="grid grid-cols-1 gap-x-[26px] px-[var(--space-5)] md:[grid-template-columns:repeat(14,minmax(0,1fr))] md:px-[47px]">
-        <nav className="col-span-1 mb-[116px] flex items-center justify-between md:col-span-14">
-          <p className="text-label-12 font-geist-mono rounded-[var(--radius-1)] bg-[var(--accent)]/65 px-[var(--space-1)] py-[var(--space-0)] tracking-[0.12em] text-black">
-            rose
-          </p>
-          <div className="font-geist-mono flex gap-[40px] text-[14px] font-normal leading-[141%] uppercase">
-            <a
-              href="#work"
-              aria-current="page"
-              className="nav-link nav-link-active"
-            >
-              [WORK]
-            </a>
-            <a
-              href="#playground"
-              className="nav-link"
-            >
-              [PLAYGROUND]
-            </a>
-            <a
-              href="#about"
-              className="nav-link"
-            >
-              [ABOUT]
-            </a>
-            <a
-              href="#resume"
-              className="nav-link"
-            >
-              [RESUME]
-            </a>
-          </div>
-        </nav>
+    <main className="mx-auto w-full max-w-[1512px] px-[20px] md:px-[47px]">
+      <Nav />
 
-        <section className="col-span-1 mb-[76px] text-center md:col-span-14">
-          <p className="hero-title text-[var(--color-text-black-light)]">
-            Hi, I&apos;m Rose.
-          </p>
-          <p className="text-label-16 font-geist-mono mx-auto mt-[22px] max-w-xl text-[var(--colours-text-gray-light,#746E6E)]">
-            I design products for good and create with intention.
-          </p>
-        </section>
+      {/* ——— Hero ——— */}
+      <section className="relative flex flex-col items-center pb-[80px] pt-[64px]">
+        <p className="hero-title text-[var(--colours-surface-surface-200)]">
+          Hi, I&apos;m <em>Rose.</em>
+        </p>
+        <p className="text-label-16 font-geist-mono mt-[var(--space-3)] text-[var(--colours-surface-surface-150)]">
+          I design products for good and create with intention.
+        </p>
+      </section>
 
-        <section id="work" className="col-span-1 mb-[var(--space-12)] md:col-span-14">
-          <div className="grid grid-cols-1 gap-x-[26px] gap-y-[64px] md:[grid-template-columns:repeat(14,minmax(0,1fr))]">
-            {featuredProjects.map((project) => (
-              <CaseStudyCard
-                key={project.title}
-                title={project.title}
-                meta={project.meta}
-                summary={project.summary}
-                image={project.image}
-              />
-            ))}
-          </div>
-        </section>
+      {/* ——— Work ——— */}
+      <section
+        id="work"
+        className="mx-auto flex w-full max-w-[1212px] flex-col items-start gap-[var(--space-12)]"
+      >
+        <div className="flex w-full flex-col gap-[var(--space-12)] md:grid md:grid-cols-2 md:gap-x-[26px] md:gap-y-[var(--space-12)]">
+          {featuredProjects.map((project) => (
+            <CaseStudyCard
+              key={project.title}
+              title={project.title}
+              meta={project.meta}
+              summary={project.summary}
+              image={project.image}
+            />
+          ))}
+        </div>
+      </section>
 
-        <footer className="col-span-1 mt-[var(--space-9)] border-t border-[var(--line)] pt-[var(--space-8)] md:col-span-14">
-          <div className="w-fit border-t border-[var(--line)] pt-[var(--space-3)]">
-            <p className="text-label-12 font-geist-mono mb-[var(--space-1)] tracking-[0.16em] text-[var(--muted)]">
-              Let&apos;s create
-            </p>
-            <div className="text-label-12 font-geist-mono space-y-1 tracking-[0.16em]">
-              <p>[ Email ]</p>
-              <p>[ LinkedIn ]</p>
-            </div>
-          </div>
-        </footer>
-      </div>
+      {/* ——— Footer ——— */}
+      <footer className="mx-auto mt-[120px] w-full max-w-[1212px] border-t border-[var(--colours-surface-surface-30)] pb-[var(--space-12)] pt-[var(--space-9)]">
+        <p className="text-label-12 font-geist-mono mb-[var(--space-3)] tracking-[0.16em] text-[var(--colours-surface-surface-150)]">
+          Let&apos;s create
+        </p>
+        <div className="text-label-12 font-geist-mono flex flex-col gap-[var(--space-1)] tracking-[0.16em] text-[var(--colours-surface-surface-200)]">
+          <p>[ Email ]</p>
+          <p>[ LinkedIn ]</p>
+        </div>
+      </footer>
     </main>
   );
 }

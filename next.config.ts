@@ -12,6 +12,18 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "images.unsplash.com",
       },
+      {
+        protocol: "https",
+        hostname: "www.figma.com",
+      },
+      {
+        protocol: "https",
+        hostname: "figma-alpha-api.s3.us-west-2.amazonaws.com",
+      },
+      {
+        protocol: "https",
+        hostname: "s3-alpha.figma.com",
+      },
     ],
   },
   turbopack: {
