@@ -58,23 +58,34 @@ const albums = [
 const IMG_PORTRAIT =
   "https://www.figma.com/api/mcp/asset/73af5a0a-873f-4e5c-adf0-6c577d92aa76";
 const IMG_VINYL =
-  "https://www.figma.com/api/mcp/asset/46f0b436-3566-498f-b769-3cee58190e32";
+  "https://blood-records.co.uk/cdn/shop/files/BLOOD467-PinkPanth-Graphic_3000x3000.png?v=1745339309";
 const IMG_NEEDLE =
   "https://www.figma.com/api/mcp/asset/cd5b8a9c-c5a2-4b52-9657-66a881d1a317";
 
+const WAVE_BARS = [
+  { height: 19, duration: "0.55s", delay: "0s" },
+  { height: 29, duration: "0.7s",  delay: "0.15s" },
+  { height: 22, duration: "0.48s", delay: "0.05s" },
+  { height: 22, duration: "0.62s", delay: "0.3s" },
+  { height: 15, duration: "0.57s", delay: "0.2s" },
+];
+
 function AudioWaves({ playing }: { playing: boolean }) {
-  const bars = [19, 29, 22, 22, 15];
   return (
     <div className="flex items-center gap-[4px]">
-      {bars.map((h, i) => (
+      {WAVE_BARS.map((bar, i) => (
         <div
           key={i}
           className="w-[4px] rounded-[40px] transition-colors duration-300"
           style={{
-            height: h,
+            height: bar.height,
             backgroundColor: playing
               ? "var(--colours-primary-primary-200)"
               : "#d9d9d9",
+            transformOrigin: "center",
+            animation: playing
+              ? `audio-bar ${bar.duration} ${bar.delay} ease-in-out infinite`
+              : "none",
           }}
         />
       ))}
