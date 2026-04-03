@@ -1,7 +1,8 @@
+@import url('https://fonts.googleapis.com/css2?family=Geist+Mono:wght@100..900&family=Geist:wght@100..900&family=Instrument+Serif:wght@400&display=swap');
 @import "tailwindcss";
 
 :root {
-  /* Figma token import: tokens/Mode 1.tokens.json */
+  /* Design system color tokens from Figma */
   --color-surface-primary-light: #f8f4f6;
   --color-text-black-light: #2f2b29;
   --color-text-gray-light: #746e6e;
@@ -61,7 +62,7 @@ body {
   background-position: top center;
   background-repeat: repeat-y;
   background-size: 1512px auto;
-  font-family: var(--font-sans), sans-serif;
+  font-family: var(--font-geist-sans), sans-serif;
 }
 
 a {
@@ -70,11 +71,11 @@ a {
 }
 
 .display-serif {
-  font-family: var(--font-sans), sans-serif;
+  font-family: var(--font-instrument-serif), serif;
 }
 
 .font-geist-mono {
-  font-family: var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-family: var(--font-geist-mono);
 }
 
 .text-display-semi {
@@ -148,11 +149,11 @@ a {
 }
 
 .vinyl-spinning {
-  animation: vinyl-spin 2s linear infinite;
+  animation: vinyl-spin 1s linear infinite;
 }
 
 .vinyl-paused {
-  animation: vinyl-spin 2s linear infinite;
+  animation: vinyl-spin 1s linear infinite;
   animation-play-state: paused;
 }
 
