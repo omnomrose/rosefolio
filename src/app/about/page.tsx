@@ -7,6 +7,7 @@ import { useState, useRef, useEffect, useCallback } from "react";
 interface YTPlayer {
   playVideo: () => void;
   pauseVideo: () => void;
+  loadVideoById: (videoId: string) => void;
   destroy: () => void;
 }
 
@@ -14,57 +15,76 @@ interface YTPlayerEvent {
   data: number;
 }
 
-const YOUTUBE_VIDEO_ID = "D24dn9eXTwA";
-
+// discOrigin: transform-origin that places the rotation axis on the true
+// centre of the vinyl disc within the 650×650 rendered container.
+//
+// Local assets are all 2533×2646 @1x (portrait). With object-cover on a
+// 650×650 square, the width governs the scale (×0.2566) and 14.4 px are
+// cropped symmetrically from top and bottom. Pixel analysis gives the disc
+// centre at 50.09 % x / 51.53 % y of the raw image, which maps to
+// ≈50 % x / 51.65 % y inside the cropped container.
+//
+// Girl Like Me uses a 3000×3000 square, so no correction is needed (50 % 50 %).
 const albums = [
   {
     title: "GIRL LIKE ME",
-    cover:
-      "https://www.figma.com/api/mcp/asset/ec54e93a-d5d4-47b8-a006-79c552954865",
-    youtubeId: YOUTUBE_VIDEO_ID,
+    cover: "https://www.figma.com/api/mcp/asset/3caca683-8bd3-4de4-9548-5c79921f7020",
+    vinyl:
+      "https://blood-records.co.uk/cdn/shop/files/BLOOD467-PinkPanth-Graphic_3000x3000.png?v=1745339309",
+    youtubeId: "D24dn9eXTwA",
+    discOrigin: "50% 50%",
   },
   {
     title: "LES FLEURS",
-    cover:
-      "https://www.figma.com/api/mcp/asset/f6876aca-617c-4746-aef9-07cab5ac2164",
+    cover: "https://www.figma.com/api/mcp/asset/949e7238-4f60-4b59-b0ae-3c3dcf86e8f4",
+    vinyl: "/assets/les-fleurs-vinyl@2x.png",
+    youtubeId: "g1kDd6yBQZ4",
+    discOrigin: "50% 51.65%",
   },
   {
-    title: "DIRTY DANCER",
-    cover:
-      "https://www.figma.com/api/mcp/asset/0a9d6cb6-59c2-47b5-80da-77547702d8e4",
+    title: "LOSING YOU",
+    cover: "https://www.figma.com/api/mcp/asset/66b8f42e-dea0-4cd2-ad9a-892c54a447c5",
+    vinyl: "/assets/losing-you-vinyl@3x.png",
+    youtubeId: "nFL_zxA5gqo",
+    discOrigin: "50% 51.65%",
   },
   {
     title: "PARADISE",
-    cover:
-      "https://www.figma.com/api/mcp/asset/105d465d-7779-4bed-b146-06d41d16053e",
+    cover: "https://www.figma.com/api/mcp/asset/dfa80ca1-ad11-4e28-aa36-801d25ce51d6",
+    vinyl: "/assets/paradise-vinyl@2x.png",
+    youtubeId: "HywzuV7yYmg",
+    discOrigin: "50% 51.65%",
   },
   {
     title: "WATCHLAR",
-    cover:
-      "https://www.figma.com/api/mcp/asset/087de667-2b41-4d4c-ab2f-24d4bb4ca45b",
+    cover: "https://www.figma.com/api/mcp/asset/a28fbc5c-3a95-44e0-b3fb-ca3938ed4433",
+    vinyl: "/assets/watchlar-vinyl@2x.png",
+    youtubeId: "1KXCa8tQ87M",
+    discOrigin: "50% 51.65%",
   },
   {
-    title: "UH UH",
-    cover:
-      "https://www.figma.com/api/mcp/asset/7f85da9d-1d28-4370-ab35-79bff5c6c5ae",
+    title: "HUIT OCTOBRE 1971",
+    cover: "https://www.figma.com/api/mcp/asset/18a2b0e0-cf63-4be0-95af-741b51aa47d2",
+    vinyl: "/assets/huit-octobre-vinyl.png",
+    youtubeId: "-VqRYD4qPmI",
+    discOrigin: "50% 51.65%",
   },
   {
     title: "EVERYTHING IS EMBARRASSING",
-    cover:
-      "https://www.figma.com/api/mcp/asset/78a4a6ef-106e-4436-bb18-6d0b21f5b95c",
+    cover: "https://www.figma.com/api/mcp/asset/055165be-2ff6-46ca-aae5-c436dccf623b",
+    vinyl: "/assets/everything-is-embarassing-vinyl@2x.png",
+    youtubeId: "u6VaHQw4c60",
+    discOrigin: "50% 51.65%",
   },
 ];
 
 const IMG_PORTRAIT =
   "https://www.figma.com/api/mcp/asset/73af5a0a-873f-4e5c-adf0-6c577d92aa76";
-const IMG_VINYL =
-  "https://blood-records.co.uk/cdn/shop/files/BLOOD467-PinkPanth-Graphic_3000x3000.png?v=1745339309";
-const IMG_NEEDLE =
-  "https://www.figma.com/api/mcp/asset/cd5b8a9c-c5a2-4b52-9657-66a881d1a317";
+const IMG_NEEDLE = "/assets/record-needle@3x.png";
 
 const WAVE_BARS = [
   { height: 19, duration: "0.55s", delay: "0s" },
-  { height: 29, duration: "0.7s",  delay: "0.15s" },
+  { height: 29, duration: "0.7s", delay: "0.15s" },
   { height: 22, duration: "0.48s", delay: "0.05s" },
   { height: 22, duration: "0.62s", delay: "0.3s" },
   { height: 15, duration: "0.57s", delay: "0.2s" },
@@ -115,10 +135,11 @@ declare global {
   }
 }
 
-function useYouTubePlayer(videoId: string) {
+function useYouTubePlayer() {
   const playerRef = useRef<YTPlayer | null>(null);
   const readyRef = useRef(false);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [loadedId, setLoadedId] = useState<string | null>(null);
 
   useEffect(() => {
     let mounted = true;
@@ -128,7 +149,7 @@ function useYouTubePlayer(videoId: string) {
       playerRef.current = new window.YT.Player("yt-player", {
         height: "0",
         width: "0",
-        videoId,
+        videoId: "",
         playerVars: { autoplay: 0, controls: 0, modestbranding: 1 },
         events: {
           onReady: () => {
@@ -161,16 +182,22 @@ function useYouTubePlayer(videoId: string) {
       mounted = false;
       playerRef.current?.destroy();
     };
-  }, [videoId]);
+  }, []);
 
-  const toggle = useCallback(() => {
-    if (!readyRef.current || !playerRef.current) return;
-    if (isPlaying) {
-      playerRef.current.pauseVideo();
-    } else {
-      playerRef.current.playVideo();
-    }
-  }, [isPlaying]);
+  const toggle = useCallback(
+    (videoId: string) => {
+      if (!readyRef.current || !playerRef.current) return;
+      if (loadedId === videoId && isPlaying) {
+        playerRef.current.pauseVideo();
+      } else if (loadedId === videoId && !isPlaying) {
+        playerRef.current.playVideo();
+      } else {
+        playerRef.current.loadVideoById(videoId);
+        setLoadedId(videoId);
+      }
+    },
+    [isPlaying, loadedId]
+  );
 
   const pause = useCallback(() => {
     if (readyRef.current && playerRef.current && isPlaying) {
@@ -178,38 +205,38 @@ function useYouTubePlayer(videoId: string) {
     }
   }, [isPlaying]);
 
-  return { isPlaying, toggle, pause };
+  return { isPlaying, loadedId, toggle, pause };
 }
 
 export default function AboutPage() {
   const [activeIndex, setActiveIndex] = useState(0);
-  const { isPlaying, toggle, pause } = useYouTubePlayer(YOUTUBE_VIDEO_ID);
-  const isGirlLikeMe = activeIndex === 0;
+  const { isPlaying, loadedId, toggle, pause } = useYouTubePlayer();
+
+  const activeAlbum = albums[activeIndex];
+  const vinylSpinning = isPlaying && loadedId === activeAlbum.youtubeId;
 
   function handleVinylClick() {
-    if (isGirlLikeMe) {
-      toggle();
-    }
+    toggle(activeAlbum.youtubeId);
   }
 
   function handleAlbumSelect(i: number) {
-    if (i !== 0 && isPlaying) {
+    if (isPlaying && loadedId !== albums[i].youtubeId) {
       pause();
     }
     setActiveIndex(i);
   }
 
   function handlePrev() {
-    if (isPlaying) pause();
-    setActiveIndex((activeIndex - 1 + albums.length) % albums.length);
+    const prevIndex = (activeIndex - 1 + albums.length) % albums.length;
+    if (isPlaying && loadedId !== albums[prevIndex].youtubeId) pause();
+    setActiveIndex(prevIndex);
   }
 
   function handleNext() {
-    if (isPlaying) pause();
-    setActiveIndex((activeIndex + 1) % albums.length);
+    const nextIndex = (activeIndex + 1) % albums.length;
+    if (isPlaying && loadedId !== albums[nextIndex].youtubeId) pause();
+    setActiveIndex(nextIndex);
   }
-
-  const vinylSpinning = isGirlLikeMe && isPlaying;
 
   return (
     <main className="mx-auto w-full max-w-[1512px] px-[20px] md:px-[47px]">
@@ -269,9 +296,9 @@ export default function AboutPage() {
       {/* ——— Vinyl / Music Section ——— */}
       <section className="relative mt-[100px] pb-[120px]">
         <p className="font-geist-mono mb-[var(--space-5)] text-[16px] leading-[1.41] uppercase text-[var(--colours-surface-surface-150)]">
-          {isGirlLikeMe
-            ? "CLICK THE VINYL TO PLAY: GIRL LIKE ME"
-            : `NOW VIEWING: ${albums[activeIndex].title}`}
+          {vinylSpinning
+            ? `NOW PLAYING: ${activeAlbum.title}`
+            : `CLICK THE VINYL TO PLAY: ${activeAlbum.title}`}
         </p>
 
         <div className="flex flex-col items-start gap-[56px] md:flex-row">
@@ -279,21 +306,22 @@ export default function AboutPage() {
           <button
             onClick={handleVinylClick}
             aria-label={
-              isGirlLikeMe
-                ? isPlaying
-                  ? "Pause Girl Like Me"
-                  : "Play Girl Like Me"
-                : albums[activeIndex].title
+              vinylSpinning
+                ? `Pause ${activeAlbum.title}`
+                : `Play ${activeAlbum.title}`
             }
             className="relative mx-auto h-[650px] w-[650px] shrink-0 cursor-pointer border-none bg-transparent md:mx-0"
           >
             <div
-              className={`absolute inset-0 origin-center ${vinylSpinning ? "vinyl-spinning" : ""}`}
-              style={!vinylSpinning ? { transform: "rotate(168deg)" } : undefined}
+              className={`absolute inset-0 ${vinylSpinning ? "vinyl-spinning" : ""}`}
+              style={{
+                transformOrigin: activeAlbum.discOrigin,
+                ...(!vinylSpinning && { transform: "rotate(168deg)" }),
+              }}
             >
               <Image
-                src={IMG_VINYL}
-                alt="Vinyl record"
+                src={activeAlbum.vinyl}
+                alt={`${activeAlbum.title} vinyl record`}
                 width={650}
                 height={650}
                 className="size-full object-cover"
@@ -365,7 +393,7 @@ export default function AboutPage() {
                 </button>
 
                 <p className="font-geist-mono text-[16px] leading-[1.41] uppercase text-[var(--colours-surface-surface-200)]">
-                  {albums[activeIndex].title}
+                  {activeAlbum.title}
                 </p>
 
                 <button
