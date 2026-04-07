@@ -15,24 +15,21 @@ const featuredProjects = [
     meta: "CONCEPTUAL, UX/UI",
     summary:
       "A healthcare platform connecting Canadian patients with healthcare providers through AI-assisted consultations.",
-    image:
-      "https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&w=1300&q=80",
+    image: "/assets/cs-meta-glasses.png",
   },
   {
     title: "Still",
     meta: "FIGMA, HEALTH TECH",
     summary:
       "An Apple Watch and iPhone companion app that detects subtle physiological changes in real-time.",
-    image:
-      "https://images.unsplash.com/photo-1600959907703-125ba1374a12?auto=format&fit=crop&w=1300&q=80",
+    image: "/assets/cs-still.png",
   },
   {
     title: "Mitchie Matcha",
     meta: "BRANDING, MENU DESIGN",
     summary:
       "Designing merchandise for a Vancouver-based cafe offering handcrafted drinks made with premium Japanese matcha.",
-    image:
-      "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=1300&q=80",
+    image: "/assets/cs-mitchie-matcha.png",
   },
 ];
 
@@ -46,7 +43,7 @@ type CaseStudyCardProps = {
 function CaseStudyCard({ title, meta, summary, image }: CaseStudyCardProps) {
   return (
     <article className="flex flex-col items-start gap-[var(--space-7)]">
-      <div className="w-full overflow-hidden rounded-[var(--radius-3)]">
+      <div className="w-full overflow-hidden rounded-[var(--radius-2)]">
         <Image
           src={image}
           alt={title}
@@ -55,12 +52,12 @@ function CaseStudyCard({ title, meta, summary, image }: CaseStudyCardProps) {
           className="h-[220px] w-full object-cover md:h-[330px]"
         />
       </div>
-      <div className="flex w-full flex-col gap-[var(--space-1)]">
-        <div className="flex w-full items-start justify-between gap-[var(--space-3)]">
+      <div className="flex w-full flex-col gap-[var(--space-2)]">
+        <div className="flex w-full items-center justify-between gap-[var(--space-3)]">
           <h3 className="text-h3-medium text-[var(--colours-surface-surface-200)]">
             {title}
           </h3>
-          <p className="text-label-12 font-geist-mono shrink-0 pt-[4px] tracking-[0.16em] text-[var(--colours-surface-surface-150)]">
+          <p className="text-label-12 font-geist-mono shrink-0 tracking-[0.16em] text-[var(--colours-surface-surface-150)]">
             {meta}
           </p>
         </div>

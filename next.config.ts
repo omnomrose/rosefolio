@@ -24,6 +24,10 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "s3-alpha.figma.com",
       },
+      {
+        protocol: "https",
+        hostname: "blood-records.co.uk",
+      },
     ],
   },
   turbopack: {

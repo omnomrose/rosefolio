@@ -247,6 +247,26 @@ export default function AboutPage() {
         <div id="yt-player" />
       </div>
 
+      {/* Preload all vinyl images eagerly so switching is instant.
+          loading="eager" is required because these are off-screen;
+          the default lazy behaviour would never fetch them. */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none fixed left-[-9999px] top-[-9999px] size-0 overflow-hidden"
+      >
+        {albums.map((album) => (
+          <Image
+            key={album.vinyl}
+            src={album.vinyl}
+            alt=""
+            width={650}
+            height={679}
+            sizes="650px"
+            loading="eager"
+          />
+        ))}
+      </div>
+
       {/* ——— About Hero ——— */}
       <section className="mt-[56px] flex flex-col gap-[56px] md:flex-row md:gap-[80px]">
         <div className="mx-auto w-[284px] shrink-0 md:mx-0 md:ml-[calc(14.29%-10px)]">
@@ -323,9 +343,10 @@ export default function AboutPage() {
                 src={activeAlbum.vinyl}
                 alt={`${activeAlbum.title} vinyl record`}
                 width={650}
-                height={650}
+                height={679}
+                sizes="650px"
+                priority
                 className="size-full object-cover"
-                unoptimized
               />
             </div>
             <div
@@ -340,8 +361,9 @@ export default function AboutPage() {
                 alt="Record needle"
                 width={143}
                 height={574}
+                sizes="143px"
+                priority
                 className="size-full object-contain"
-                unoptimized
               />
             </div>
           </button>
@@ -367,8 +389,8 @@ export default function AboutPage() {
                       alt={album.title}
                       width={77}
                       height={77}
+                      sizes="154px"
                       className="size-full object-cover"
-                      unoptimized
                     />
                   </div>
                   <span className="font-geist-mono w-[77px] text-center text-[12px] leading-[1.41] uppercase text-[var(--colours-surface-surface-200)]">
