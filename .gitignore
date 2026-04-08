@@ -12,6 +12,13 @@
 .DS_Store
 *.pem
 
+# Cursor local agent artifacts (do not commit)
+.cursor/
+
+# Large GIFs (> GitHub 100MB limit); keep locally or set NEXT_PUBLIC_NEXA_*_GIF_URL
+public/assets/landing-pg-nexa.gif
+public/assets/nexa-demo.gif
+
 # debug
 npm-debug.log*
 yarn-debug.log*

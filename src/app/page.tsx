@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import Nav from "@/components/Nav";
+import { NEXA_DEMO_GIF } from "@/lib/publicAssets";
 
 const featuredProjects = [
   {
@@ -8,8 +9,7 @@ const featuredProjects = [
     meta: "PRODUCT, UX/UI",
     summary:
       "A healthcare platform connecting Canadian patients with healthcare providers through AI-assisted consultations.",
-    image:
-      "https://images.unsplash.com/photo-1664575602554-2087b04935a5?auto=format&fit=crop&w=1300&q=80",
+    image: NEXA_DEMO_GIF,
     href: "/work/nexa",
   },
   {
@@ -52,6 +52,7 @@ function CaseStudyCard({ title, meta, summary, image, href }: CaseStudyCardProps
           alt={title}
           width={593}
           height={330}
+          unoptimized={image.startsWith("http") || image.endsWith(".gif")}
           className="h-[220px] w-full object-cover md:h-[330px]"
         />
       </div>

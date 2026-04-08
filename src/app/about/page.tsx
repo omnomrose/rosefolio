@@ -285,30 +285,31 @@ export default function AboutPage() {
             Hi! Welcome to my little digital corner ⋆˚｡
           </h1>
 
-          <div className="text-body-16 flex flex-col gap-[var(--space-3)] text-[var(--colours-surface-surface-200)]">
-            <p>
-              Some things about me –{" "}
-              I fell in love with design during my childhood, playing on Kid Pix
-              on the shared family computer (yes, I do know ball).
+          <div className="text-body-16 text-[var(--colours-surface-surface-150)] leading-[0] whitespace-pre-wrap">
+            <p className="mb-0">
+              <span className="leading-[1.41]">Some things about me – </span>
+              <span className="leading-[1.41] text-[var(--colours-surface-surface-200)]">I fell in love with design during my childhood,</span>
+              <span className="leading-[1.41]"> playing on Kid Pix on the shared family computer. Being exposed to design at a young age has allowed me to always </span>
+              <span className="leading-[1.41] text-[var(--colours-surface-surface-200)]">approach problems from curiosity-driven perspective.</span>
             </p>
-            <p>
-              I&apos;m a huge advocate for designing for lived experiences and
-              working with people for people. There&apos;s just something about
-              empathy and storytelling that automation can&apos;t replace.
+            <p className="leading-[1.41] mb-0">&nbsp;</p>
+            <p className="mb-0">
+              <span className="leading-[1.41]">I&apos;m a huge advocate for </span>
+              <span className="leading-[1.41] text-[var(--colours-surface-surface-200)]">designing for lived experiences</span>
+              <span className="leading-[1.41]"> </span>
+              <span className="leading-[1.41] text-[var(--colours-surface-surface-200)]">and working with people for people.</span>
+              <span className="leading-[1.41]"> There&apos;s just something about empathy and storytelling that automation can&apos;t replace.</span>
             </p>
+            <p className="leading-[1.41] mb-0">&nbsp;</p>
             <p>
-              I am a continuous learner for life and I love creating tangible
-              products for people!
+              <span className="leading-[1.41]">I am a </span>
+              <span className="leading-[1.41] text-[var(--colours-surface-surface-200)]">continuous learner for life and I love creating tangible products for people.</span>
             </p>
           </div>
 
           <p className="font-geist-mono text-[16px] leading-[1.41] uppercase">
-            <span className="text-[var(--colours-surface-surface-200)]">
-              HUNGRY FOR MORE?{" "}
-            </span>
-            <span className="text-[var(--colours-primary-primary-300)]">
-              CHECK OUT MY FRIDGE:
-            </span>
+            <span className="text-[var(--colours-surface-surface-200)]">HUNGRY FOR MORE? </span>
+            <span className="text-[var(--colours-primary-primary-300)]">CHECK OUT MY FRIDGE:</span>
           </p>
         </div>
       </section>

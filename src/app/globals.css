@@ -6,6 +6,9 @@
   --color-surface-primary-light: #f8f4f6;
   --color-text-black-light: #2f2b29;
   --color-text-gray-light: #746e6e;
+  /* Figma token spelling aliases (same values as --color-text-*) */
+  --colour-text-black-light: var(--color-text-black-light);
+  --colour-text-gray-light: var(--color-text-gray-light);
   --color-button-primary-light: #ff8aca;
   --color-button-secondary-light: #7cc78a;
   --colours-surface-surface-100: #f8f4f6;
