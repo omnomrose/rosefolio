@@ -28,6 +28,11 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "blood-records.co.uk",
       },
+      {
+        protocol: "https",
+        hostname: "figma-alpha-api.s3.us-west-2.amazonaws.com",
+        pathname: "/img/**",
+      },
     ],
   },
   turbopack: {

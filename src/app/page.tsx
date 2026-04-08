@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import Nav from "@/components/Nav";
 
 const featuredProjects = [
@@ -9,6 +10,7 @@ const featuredProjects = [
       "A healthcare platform connecting Canadian patients with healthcare providers through AI-assisted consultations.",
     image:
       "https://images.unsplash.com/photo-1664575602554-2087b04935a5?auto=format&fit=crop&w=1300&q=80",
+    href: "/work/nexa",
   },
   {
     title: "Optimizing Meta Glasses for Retail",
@@ -38,10 +40,11 @@ type CaseStudyCardProps = {
   meta: string;
   summary: string;
   image: string;
+  href?: string;
 };
 
-function CaseStudyCard({ title, meta, summary, image }: CaseStudyCardProps) {
-  return (
+function CaseStudyCard({ title, meta, summary, image, href }: CaseStudyCardProps) {
+  const inner = (
     <article className="flex flex-col items-start gap-[var(--space-7)]">
       <div className="w-full overflow-hidden rounded-[var(--radius-2)]">
         <Image
@@ -67,6 +70,8 @@ function CaseStudyCard({ title, meta, summary, image }: CaseStudyCardProps) {
       </div>
     </article>
   );
+  if (href) return <Link href={href} className="block">{inner}</Link>;
+  return inner;
 }
 
 export default function Home() {
@@ -93,10 +98,7 @@ export default function Home() {
           {featuredProjects.map((project) => (
             <CaseStudyCard
               key={project.title}
-              title={project.title}
-              meta={project.meta}
-              summary={project.summary}
-              image={project.image}
+              {...project}
             />
           ))}
         </div>
